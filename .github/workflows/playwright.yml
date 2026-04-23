@@ -35,10 +35,22 @@ jobs:
           USUARIO_VALIDO: ${{ secrets.USUARIO_VALIDO }}
           CONTRASENA_VALIDA: ${{ secrets.CONTRASENA_VALIDA }}
 
+      - name: Generar Reporte Serenity BDD
+        if: always()
+        run: npm run report
+
       - name: Subir reporte Cucumber
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-report
           path: reports/
+          retention-days: 30
+
+      - name: Subir reporte Serenity BDD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serenity-bdd-report
+          path: target/site/serenity/
           retention-days: 30
