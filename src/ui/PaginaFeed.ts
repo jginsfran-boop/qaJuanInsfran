@@ -24,7 +24,7 @@ export const PaginaFeed = {
       .describedAs('campo de texto del comentario'),
 
   botonPublicarComentario: () =>
-    PageElement.located(By.css('div[role="button"]:has-text("Publicar"):visible, div[role="button"]:has-text("Post"):visible'))
+    PageElement.located(By.xpath('(//div[@role="button" and (normalize-space(text())="Publicar" or normalize-space(text())="Post")])[last()]'))
       .describedAs('botón Publicar comentario'),
 
   comentarioConTexto: (texto: string) =>

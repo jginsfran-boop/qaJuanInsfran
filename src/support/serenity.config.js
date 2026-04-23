@@ -15,7 +15,7 @@ const fs = require('fs');
 const { configure, ArtifactArchiver } = require('@serenity-js/core');
 const { ConsoleReporter } = require('@serenity-js/console-reporter');
 const { SerenityBDDReporter } = require('@serenity-js/serenity-bdd');
-const { Photographer, TakePhotosOfFailures } = require('@serenity-js/web');
+const { Photographer, TakePhotosOfFailures, TakePhotosOfInteractions } = require('@serenity-js/web');
 
 const outputDir = path.join(process.cwd(), 'target', 'site', 'serenity');
 fs.mkdirSync(outputDir, { recursive: true });
@@ -26,7 +26,8 @@ try {
       ConsoleReporter.fromJSON({ theme: 'auto' }),
       SerenityBDDReporter.fromJSON({ specDirectory: './features' }),
       ArtifactArchiver.storingArtifactsAt(process.cwd(), 'target', 'site', 'serenity'),
-      Photographer.whoWill(TakePhotosOfFailures),
+      // Toma foto en cada interacción (click, enter, etc) para tener evidencia completa
+      Photographer.whoWill(TakePhotosOfInteractions),
     ],
   });
   console.log('[serenity.config.js] Crew configurado OK →', outputDir);

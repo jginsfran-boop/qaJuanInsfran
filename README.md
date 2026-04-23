@@ -1,198 +1,97 @@
-# Automatización Web — Instagram QA Engineer Challenge
+# Reto Técnico QA Automation Engineer — Seek 🚀
 
-Proyecto de pruebas end-to-end para Instagram usando el **patrón Screenplay** con Serenity/JS, Playwright y Cucumber BDD.
+**Candidato:** Juan Insfran
+**Posición:** QA Automation Engineer
 
-## Stack tecnológico
+Este repositorio contiene la resolución del reto técnico de automatización Web E2E sobre la plataforma de Instagram, diseñado con un enfoque altamente escalable, resiliente y estructurado usando las mejores prácticas.
 
-| Herramienta | Versión | Rol |
-|-------------|---------|-----|
-| TypeScript | ^5.5 | Lenguaje tipado |
-| Playwright | ^1.49 | Automatización de browser (Chromium) |
-| Serenity/JS | ^3.42 | Framework Screenplay + reportes |
-| Cucumber | ^11.0 | BDD / Gherkin runner |
-| ts-node | ^10.9 | Ejecución TS sin compilación previa |
+---
 
-## Patrón Screenplay — Arquitectura
+## Evidencias y Demostración (¡Empieza por aquí!)
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  GHERKIN (.feature)                                       │
-│  Given Juan está autenticado en Instagram                 │
-│  When  da me gusta a la primera publicación del feed     │
-│  Then  la publicación debería mostrar el me gusta activo │
-└───────────────┬──────────────────────────────────────────┘
-                │  Cucumber runner mapea a →
-┌───────────────▼──────────────────────────────────────────┐
-│  STEP DEFINITIONS (feed.steps.ts)                         │
-│  Given → actor.attemptsTo(Autenticarse.enInstagram(...)) │
-│  When  → actor.attemptsTo(DarMeGusta.alaUltimPublicacion│
-│  Then  → actor.attemptsTo(Ensure.that(elemento, isVisible│
-└───────────────┬──────────────────────────────────────────┘
-                │  Tasks componen →
-┌───────────────▼──────────────────────────────────────────┐
-│  TASKS (screenplay/tasks/)                                │
-│  DarMeGusta                                              │
-│    ├─ Wait.upTo(5s).until(botonMeGusta, isVisible())     │
-│    ├─ TakeScreenshot.of('estado previo al me gusta')     │
-│    ├─ Click.on(PaginaFeed.botonMeGusta())                │
-│    └─ TakeScreenshot.of('me gusta dado')                 │
-└───────────────┬──────────────────────────────────────────┘
-                │  Interactions sobre →
-┌───────────────▼──────────────────────────────────────────┐
-│  PAGE ELEMENTS (ui/)                                      │
-│  PaginaFeed.botonMeGusta()                               │
-│  → By.xpath('(//article//button[.//svg[...]])[1]')       │
-└──────────────────────────────────────────────────────────┘
-```
+Dado que los flujos automatizados de Instagram tienen fuertes protecciones anti-bot que dificultan su ejecución en pipelines de CI/CD genéricos sin proxys residenciales, he preparado evidencias concretas para facilitar la revisión técnica:
 
-## Estructura del proyecto
+1. **[Ver Reporte Serenity BDD Interactivo] (Enlace GitHub Pages pendiente)**
+   * *Nota para DEUS (CTO):* Haz clic en el enlace superior para ver el reporte interactivo (Living Documentation) generado por Serenity/JS. Encontrarás el detalle paso a paso de cada ejecución en Gherkin junto con las capturas de pantalla de la UI de Instagram.
+2. 🎥 **[Ver Video de Ejecución Local] (Enlace a YouTube/Loom pendiente)**
+   * Demostración en video corriendo la suite completa con navegador visible.
+3. 📦 **GitHub Release**
+   * Puedes descargar el empaquetado exacto de los reportes en formato `.zip` desde la pestaña "Releases" de este repositorio.
 
-```
-automatizacionWeb/
-├── features/
-│   ├── autenticacion/
-│   │   └── login.feature          # CP001, CP002
-│   ├── interacciones/
-│   │   ├── me-gusta.feature       # CP003
-│   │   └── comentar.feature       # CP004
-│   └── publicacion/
-│       └── nueva-publicacion.feature  # CP005
-├── src/
-│   ├── ui/
-│   │   ├── PaginaDeLogin.ts       # Selectores del login
-│   │   ├── PaginaFeed.ts          # Selectores del feed
-│   │   └── PaginaNuevaPublicacion.ts  # Selectores del flujo de publicación
-│   ├── screenplay/
-│   │   ├── tasks/
-│   │   │   ├── Autenticarse.ts    # Navigate + login + esperar feed
-│   │   │   ├── IniciarSesion.ts   # Ingresar credenciales + submit
-│   │   │   ├── CerrarSesion.ts    # Settings → Salir
-│   │   │   ├── DarMeGusta.ts      # Like a la primera publicación
-│   │   │   ├── Comentar.ts        # Comentar en la primera publicación
-│   │   │   └── PublicarImagen.ts  # Subir imagen + caption + compartir
-│   │   └── questions/
-│   │       ├── UrlActual.ts       # URL de la página actual
-│   │       ├── MensajeDeError.ts  # Texto del error de login
-│   │       └── EstadoMeGusta.ts   # Botón "Ya no me gusta" (activo)
-│   └── support/
-│       ├── actores.ts             # Cast de actores con BrowseTheWebWithPlaywright
-│       ├── datos.ts               # Carga data/info.json o env vars
-│       ├── hooks.ts               # BeforeAll / Before / After / AfterAll
-│       ├── parametros.ts          # defineParameterType {actor}
-│       └── steps/
-│           ├── autenticacion.steps.ts
-│           ├── feed.steps.ts
-│           └── publicacion.steps.ts
-├── data/
-│   ├── info.example.json          # Plantilla de credenciales
-│   ├── info.json                  # Credenciales reales (GITIGNORED)
-│   └── test-image.png             # Imagen para CP005
-├── cucumber.js                    # Config Cucumber + Serenity/JS + Photographer
-├── tsconfig.json
-└── package.json
-```
+---
 
-## Casos de prueba
+## 🏗️ Arquitectura y Stack Tecnológico
 
-| ID | Feature | Descripción | Tipo |
-|----|---------|-------------|------|
-| CP001 | Autenticación | Login exitoso con credenciales válidas | Scenario |
-| CP002 | Autenticación | Login fallido con 2 pares de credenciales inválidas | Scenario Outline |
-| CP003 | Me Gusta | Dar me gusta a la primera publicación del feed | Scenario |
-| CP004 | Comentarios | Comentar en la primera publicación (2 textos distintos) | Scenario Outline |
-| CP005 | Publicación | Subir imagen con caption y publicar | Scenario |
-| CP006 | Eliminar Publicación | Eliminar la primera publicación del perfil | Scenario |
-| CP007 | Sugerencias | Seguir a 1 usuario sugerido desde el feed | Scenario |
+He seleccionado cuidadosamente el stack para garantizar mantenibilidad a largo plazo y legibilidad funcional:
 
-**Total: 7 escenarios (8 casos de prueba ejecutables) — 32 steps**
+* **Framework Core:** `Serenity/JS` (v3.42)
+* **Automatización Web:** `Playwright` (v1.49)
+* **Motor BDD:** `Cucumber` (v11.0)
+* **Lenguaje:** `TypeScript` (v5.5)
 
-## Configuración inicial
+### ¿Por qué el Patrón Screenplay?
+A diferencia de *Page Object Model (POM)* que tiende a crear clases gigantes ("God objects") difíciles de mantener, he implementado el **Patrón Screenplay** porque separa las responsabilidades según los principios SOLID:
+* **Actores:** Juan y Ana (quienes interactúan con el sistema).
+* **Abilities:** Poder navegar por la web (`BrowseTheWebWithPlaywright`).
+* **Tasks:** Acciones de negocio de alto nivel (Ej: `PublicarImagen`, `IniciarSesion`).
+* **Interactions:** Interacciones atómicas de bajo nivel (Ej: `Click`, `Enter`).
+* **Questions:** Consultas sobre el estado del sistema (`EstadoMeGusta`).
+
+---
+
+## 🛡️ Estrategia Anti-Bot (Resiliencia)
+Instagram es una aplicación agresiva contra la automatización. Para asegurar la estabilidad de estos 7 casos de prueba, implementé:
+1. **Simulación de tipeo humano:** Delay dinámico (`delay: 80ms`) al ingresar texto para evadir detección heurística.
+2. **Manejo de UI Dinámica:** Lógica con bloque `try/catch` para manejar los tests A/B de Instagram (por ejemplo, el botón "+" a veces abre un menú desplegable y a veces abre un modal directo).
+3. **Selectores Robustos:** Uso de `PageElements.first()` y localizadores parciales (`button:has-text("Seleccionar")`) para evadir violaciones de modo estricto ("Strict mode violations") y soportar variantes idiomáticas (LatAm vs España).
+
+---
+
+## ⚙️ Configuración y Ejecución Local
+
+Si deseas correr el proyecto en tu máquina local, sigue estos pasos:
 
 ### 1. Instalar dependencias
-
 ```bash
 npm install
 npx playwright install chromium
 ```
 
-### 2. Configurar credenciales
-
-**Opción A — Archivo local:**
+### 2. Configurar credenciales seguras
+Por seguridad, el archivo de datos real está en el `.gitignore`.
 ```bash
+# Copia la plantilla base
 cp data/info.example.json data/info.json
 ```
-Editar `data/info.json` con credenciales reales de Instagram.
+Abre `data/info.json` y completa los campos `user_valid` con credenciales de prueba reales de Instagram.
 
-**Opción B — Variables de entorno (CI/CD):**
-```bash
-export USUARIO_VALIDO="tu_usuario"
-export CONTRASENA_VALIDA="tu_contraseña"
-```
+### 3. Comandos de Ejecución
 
-## Ejecución de pruebas
+He configurado alias en el `package.json` para facilitar la ejecución. Tienes dos variantes para cada caso: ejecución silenciosa (Headless) y ejecución visible (Headed).
 
 ```bash
-# Todos los escenarios
+# Ejecutar TODO de forma transparente
 npm test
 
-# Con navegador visible (debugging)
+# Ejecutar TODO viendo el navegador (Recomendado para revisión visual)
 npm run test:headed
 
-# Por caso de prueba específico
-npm run test:cp001    # Login exitoso
-npm run test:cp002    # Login fallido
-npm run test:cp003    # Me gusta (tag: @CP003)
-npm run test:cp004    # Comentar (tag: @CP004)
-npm run test:cp005    # Publicar imagen (tag: @CP005)
-
-# Dry-run (verificar steps sin ejecutar)
-npx cucumber-js --dry-run
+# Ejecutar casos de prueba individuales de forma VISIBLE:
+npm run test:cp001:headed    # CP001 - Login exitoso
+npm run test:cp002:headed    # CP002 - Login fallido
+npm run test:cp003:headed    # CP003 - Dar Me Gusta
+npm run test:cp004:headed    # CP004 - Comentar publicación
+npm run test:cp005:headed    # CP005 - Publicar imagen
+npm run test:cp006:headed    # CP006 - Eliminar publicación
+npm run test:cp007:headed    # CP007 - Seguir sugerencias
 ```
 
-## Reportes y evidencias
-
-Al ejecutar `npm test` se generan automáticamente:
-
-| Artefacto | Ruta | Descripción |
-|-----------|------|-------------|
-| Reporte HTML | `reports/cucumber-report.html` | Todos los escenarios con resultado y duración |
-| Screenshots de fallos | `reports/screenshots/` | Captura automática en cada fallo (via Photographer) |
-| Screenshots en tasks | `reports/screenshots/` | Capturas manuales en DarMeGusta, Comentar, PublicarImagen |
-
-Para abrir el reporte HTML:
+### 4. Generar el Reporte HTML
+Una vez que hayas ejecutado los tests, genera el reporte BDD con:
 ```bash
-start reports/cucumber-report.html   # Windows
-open reports/cucumber-report.html    # macOS/Linux
+npm run report
 ```
+El reporte interactivo estará disponible en `target/site/serenity/index.html`.
 
-## CI/CD — GitHub Actions
-
-El workflow `.github/workflows/playwright.yml` se ejecuta en cada `push` o `pull_request` a `main`/`master`.
-
-**Configurar Secrets en GitHub:**
-```
-Settings → Secrets and variables → Actions → New repository secret
-  USUARIO_VALIDO    = tu_usuario_de_instagram
-  CONTRASENA_VALIDA = tu_contraseña
-```
-
-El workflow sube el reporte HTML como artefacto con retención de 30 días.
-
-## Serenity/JS — Conceptos clave
-
-| Concepto | Clase | Responsabilidad |
-|----------|-------|----------------|
-| **Actor** | `Actor` (`@serenity-js/core`) | Quién realiza las acciones (Juan, Ana) |
-| **Ability** | `BrowseTheWebWithPlaywright` | Qué puede hacer el actor (usar el browser) |
-| **Task** | `Task.where(...)` | Objetivo de negocio (IniciarSesion, DarMeGusta) |
-| **Interaction** | `Click`, `Enter`, `Navigate` | Acción atómica sobre la UI |
-| **Question** | `Page.current().url()` | Consulta sobre el estado del sistema |
-| **Expectation** | `isVisible()`, `includes()` | Condición para Wait o Ensure |
-
-## Notas importantes
-
-- `Wait.upTo(Duration).until(elemento, condición)` — timeout en Serenity/JS 3.42
-- `Enter.theValue(v).into(elemento)` — no existe `Fill` en v3.42
-- `Page.current().url().as(url => url.href)` — la URL es un objeto `URL`, no `string`
-- `nativePage()` en `PublicarImagen.ts` da acceso al `Page` nativo de Playwright para el file chooser
-- Los actores deben iniciar con mayúscula en Gherkin: `Juan`, `Ana`
+---
+*Este proyecto fue diseñado como prueba de concepto (PoC) para fines técnicos y no para automatización abusiva de plataformas reales.*
