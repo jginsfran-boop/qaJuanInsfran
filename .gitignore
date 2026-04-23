@@ -1,0 +1,44 @@
+# Dependencias
+node_modules/
+package-lock.json
+
+# Compilación TypeScript
+dist/
+
+# Reportes generados
+reports/
+target/
+allure-results/
+allure-report/
+.allure/
+
+# Resultados de Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Screenshots y videos
+*.png
+*.jpg
+*.mp4
+*.webm
+
+# Datos sensibles - NUNCA subir credenciales reales
+data/info.json
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Logs
+npm-debug.log*
+yarn-debug.log*

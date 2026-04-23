@@ -1,0 +1,52 @@
+{
+  "name": "automatizacion-instagram-qa",
+  "version": "2.0.0",
+  "description": "Automatización BDD con Serenity/JS + Playwright + Cucumber - Patrón Screenplay",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:headed": "cross-env HEADLESS=false cucumber-js",
+    "test:cp001": "cucumber-js --tags @CP001",
+    "test:cp001:headed": "cross-env HEADLESS=false cucumber-js --tags @CP001",
+    "test:cp002": "cucumber-js --tags @CP002",
+    "test:cp003": "cross-env HEADLESS=false cucumber-js --tags @CP003",
+    "test:cp004": "cross-env HEADLESS=false cucumber-js --tags @CP004",
+    "test:cp005": "cross-env HEADLESS=false cucumber-js --tags @CP005",
+    "test:cp006": "cross-env HEADLESS=false cucumber-js --tags @CP006",
+    "test:cp007": "cross-env HEADLESS=false cucumber-js --tags @CP007",
+    "report": "serenity-bdd run --features ./features --source target/site/serenity --destination target/site/serenity",
+    "serenity:update": "serenity-bdd update",
+    "test:report": "npm test && npm run report",
+    "test:serenity": "npm test && npm run report",
+    "clean": "rm -rf dist reports target allure-results allure-report test-results",
+    "install:browsers": "playwright install chromium"
+  },
+  "keywords": [
+    "playwright",
+    "serenity-js",
+    "cucumber",
+    "screenplay",
+    "bdd",
+    "gherkin",
+    "qa",
+    "automation",
+    "typescript"
+  ],
+  "author": "Juan Insfran",
+  "license": "MIT",
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.0.0",
+    "@playwright/test": "^1.49.0",
+    "@serenity-js/assertions": "^3.0.0",
+    "@serenity-js/console-reporter": "^3.0.0",
+    "@serenity-js/core": "^3.0.0",
+    "@serenity-js/cucumber": "^3.0.0",
+    "@serenity-js/playwright": "^3.0.0",
+    "@serenity-js/serenity-bdd": "^3.42.1",
+    "@serenity-js/web": "^3.0.0",
+    "@types/node": "^22.0.0",
+    "cross-env": "^10.1.0",
+    "npm-run-all": "^4.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.0"
+  }
+}
