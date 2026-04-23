@@ -24,6 +24,7 @@
     "test:report": "npm-run-all -s -c test report",
     "test:report:headed": "npm-run-all -s -c test:headed report",
     "test:serenity": "npm-run-all -s -c test report",
+    "deploy:pages": "node scripts/deploy-pages.js",
     "clean": "npx rimraf dist reports target allure-results allure-report test-results",
     "install:browsers": "playwright install chromium"
   },
@@ -52,6 +53,7 @@
     "@serenity-js/web": "^3.0.0",
     "@types/node": "^22.0.0",
     "cross-env": "^10.1.0",
+    "gh-pages": "^6.3.0",
     "npm-run-all": "^4.1.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.0"

@@ -11,8 +11,8 @@ Este repositorio contiene la resolución del reto técnico de automatización We
 
 Dado que los flujos automatizados de Instagram tienen fuertes protecciones anti-bot que dificultan su ejecución en pipelines de CI/CD genéricos sin proxys residenciales, he preparado evidencias concretas para facilitar la revisión técnica:
 
-1. **[Ver Reporte Serenity BDD Interactivo] (Enlace GitHub Pages pendiente)**
-   * *Nota para DEUS (CTO):* Haz clic en el enlace superior para ver el reporte interactivo (Living Documentation) generado por Serenity/JS. Encontrarás el detalle paso a paso de cada ejecución en Gherkin junto con las capturas de pantalla de la UI de Instagram.
+1. **[🔗 Ver Reporte Serenity BDD Interactivo](https://jginsfran-boop.github.io/qaJuanInsfran/)**
+   * Haz clic para ver el reporte de *Living Documentation* generado por Serenity/JS. Encontrarás el detalle paso a paso de cada ejecución en Gherkin, junto con las capturas de pantalla de la UI de Instagram en cada interacción.
 2. 🎥 **[Ver Video de Ejecución Local] (Enlace a YouTube/Loom pendiente)**
    * Demostración en video corriendo la suite completa con navegador visible.
 3. 📦 **GitHub Release**
