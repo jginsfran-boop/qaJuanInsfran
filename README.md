@@ -13,8 +13,8 @@ Dado que los flujos automatizados de Instagram tienen fuertes protecciones anti-
 
 1. **[🔗 Ver Reporte Serenity BDD Interactivo](https://jginsfran-boop.github.io/qaJuanInsfran/)**
    * Haz clic para ver el reporte de *Living Documentation* generado por Serenity/JS. Encontrarás el detalle paso a paso de cada ejecución en Gherkin, junto con las capturas de pantalla de la UI de Instagram en cada interacción.
-2. 🎥 **[Ver Video de Ejecución Local] (Enlace a YouTube/Loom pendiente)**
-   * Demostración en video corriendo la suite completa con navegador visible.
+2. **[🎥 Ver Video de Ejecución](https://youtu.be/8-k1Pex86Wc)**
+   * Demostración completa corriendo los 7 casos de prueba con navegador visible, incluyendo la vista del reporte Serenity al final.
 3. 📦 **GitHub Release**
    * Puedes descargar el empaquetado exacto de los reportes en formato `.zip` desde la pestaña "Releases" de este repositorio.
 
